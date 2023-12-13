@@ -1,4 +1,4 @@
-import { Model, Sequelize } from 'sequelize';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize("users", "root", "BracoBalto//2323", {
     host: 'localhost',
@@ -33,7 +33,7 @@ export class User extends Model {
     getPhoto: any;
 }
 
-export const UserModelInit = (sequelize: Sequelize, DataTypes: typeof DataTypes) => {
+export const UserModelInit = (sequelize: Sequelize) => {
     User.init(
         {
             id: {
@@ -108,46 +108,3 @@ export const UserModelInit = (sequelize: Sequelize, DataTypes: typeof DataTypes)
     );
 };
 
-export class Photo extends Model {
-    public id!: number;
-    public userId!: number;
-    public image!: Buffer;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-}
-
-export const PhotoModelInit = (sequelize: Sequelize, DataTypes: DataTypes) => {
-    Photo.init(
-        {
-            id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true,
-            },
-            userId: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
-                references: {
-                    model: 'Users',
-                    key: 'id',
-                },
-            },
-            image: {
-                type: DataTypes.BLOB('long'),
-                allowNull: false,
-            },
-            createdAt: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-            updatedAt: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-        },
-        {
-            tableName: 'Photos',
-            sequelize,
-        }
-    );
-};
