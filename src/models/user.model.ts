@@ -1,19 +1,5 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize("users", "root", "BracoBalto//2323", {
-    host: 'localhost',
-    dialect: "mysql",
-    port: 3306
-});
-
-async function testConnection() {
-    try {
-        await sequelize.authenticate();
-    } catch (error) {
-        console.log(error)
-    }
-}
-testConnection();
 
 export class User extends Model {
     public id!: number;
