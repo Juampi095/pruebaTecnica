@@ -23,7 +23,6 @@ export class User extends Model {
     public mobilePhone!: string;
     public state!: string;
     public city!: string;
-    public asset!: string;
     public email!: string;
     public password!: string;
     public photoId!: number;
