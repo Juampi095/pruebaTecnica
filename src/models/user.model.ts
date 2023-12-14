@@ -3,7 +3,7 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 
 
 export class User extends Model {
-    public id!: number;
+    declare id: number;
     public name!: string;
     public cpf!: string;
     public dateOfBirth!: Date;
@@ -19,8 +19,25 @@ export class User extends Model {
     getPhoto: any;
 }
 
-export const UserModelInit = (sequelize: Sequelize) => {
-    User.init(
+export interface UserInt {
+    id: number;
+    name: string;
+    cpf: string;
+    dateOfBirth: Date;
+    mobilePhone: string;
+    state: string;
+    city: string;
+    email: string;
+    password: string;
+    photoId: number;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    getPhoto: any;
+}
+
+module.exports = (sequelize: Sequelize) => {
+    sequelize.define('user',
         {
             id: {
                 type: DataTypes.INTEGER.UNSIGNED,
@@ -54,7 +71,8 @@ export const UserModelInit = (sequelize: Sequelize) => {
             },
             asset: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
+                defaultValue: ''
             },
             email: {
                 type: DataTypes.STRING,
@@ -65,32 +83,22 @@ export const UserModelInit = (sequelize: Sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            photoId: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: true,
-                references: {
-                    model: 'Photos',
-                    key: 'id',
-                },
-            },
+            /*             photoId: {
+                            type: DataTypes.INTEGER.UNSIGNED,
+                            allowNull: true,
+                            references: {
+                                model: 'photo',
+                                key: 'id',
+                            },
+                        }, */
             isActive: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
                 defaultValue: false,
-            },
-            createdAt: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-            updatedAt: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-        },
-        {
-            tableName: 'my_table',
-            sequelize,
+            }
         }
     );
 };
 
+
+/* export const UserTable = new UserModelInit(sequelize); */

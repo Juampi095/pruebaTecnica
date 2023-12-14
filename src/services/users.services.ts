@@ -1,6 +1,8 @@
-//importar la db//
+import bcrypt from 'bcrypt';
+import { User } from '../models/user.model';
 
-interface User {
+export interface UserInterface {
+    id: number;
     name: string;
     cpf: string;
     birthdate: string;
@@ -13,7 +15,7 @@ interface User {
 }
 
 export async function getUserById(id: string) {
-    return db.user.findUnique({
+    return User.findOne({
         where: {
             id: parseInt(id),
         },
@@ -21,31 +23,25 @@ export async function getUserById(id: string) {
 }
 
 export async function getUserByEmail(email: string) {
-    return db.user.findUnique({
+    return User.findOne({
         where: {
             email: email,
         },
     });
 }
 
-export async function createUser(user: User): Promise<any> {
+export async function createUser(user: UserInterface): Promise<any> {
     const hashedPassword = await bcrypt.hash(user.password, 10);
-    return db.user.create({
-        data: {
-            name: user.name,
-            cpf: user.cpf,
-            birthdate: user.birthdate,
-            mobile: user.mobile,
-            photo: user.photo,
-            state: user.state,
-            city: user.city,
-            email: user.email,
-            password: hashedPassword
+    return await User.create({
 
-        },
-        select: {
-            name: true,
-            email: true
-        }
+        name: user.name,
+        cpf: user.cpf,
+        birthdate: user.birthdate,
+        mobile: user.mobile,
+        photo: user.photo,
+        state: user.state,
+        city: user.city,
+        email: user.email,
+        password: hashedPassword
     });
 }
