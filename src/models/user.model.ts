@@ -83,14 +83,7 @@ module.exports = (sequelize: Sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            /*             photoId: {
-                            type: DataTypes.INTEGER.UNSIGNED,
-                            allowNull: true,
-                            references: {
-                                model: 'photo',
-                                key: 'id',
-                            },
-                        }, */
+
             isActive: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
@@ -101,4 +94,3 @@ module.exports = (sequelize: Sequelize) => {
 };
 
 
-/* export const UserTable = new UserModelInit(sequelize); */
