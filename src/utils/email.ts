@@ -1,25 +1,30 @@
-import * as nodemailer from 'nodemailer';
+import nodemailer from 'nodemailer';
 
 export const sendActivationEmail = async (email: string) => {
     try {
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user: "azarjpm15@gmail.com",
-                pass: "akgy zdzp rvel ycuo"
+                user: process.env.EMAIL_USERNAME,
+                pass: process.env.EMAIL_PASSWORD
             },
         });
 
         const mailOptions = {
-            from: "azarjpm15@gmail",
+            from: process.env.EMAIL_USERNAME,
             to: email,
             subject: "Registration confirmation",
-            text: "Thank you for registering! please confirm your registration by clicking on this link",
+            html: `<p>Thank you for registering! Please, confirm your registration by clicking on this <a href="aquí va tu link">link</a></p>`,
         };
 
         await transporter.sendMail(mailOptions);
         return "Email sent successfully!";
     } catch (error) {
-        return "Error sending the confirmation email:" + error;
+        if (error instanceof Error) {
+            return "Error sending the confirmation email: " + error.message;
+        } else {
+            return "Unknown error occurred while sending the confirmation email.";
+        }
     }
-}
+
+};
